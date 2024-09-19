@@ -1,35 +1,33 @@
 import sys
 
-def validate_number(num):
-    return num if num <= 1000 else 0  # Ignore numbers greater than 1000
+# Raise an exception if negative numbers are found
+def check_for_negatives(values):
+    negatives = [n for n in values if n < 0]
+    if negatives:
+        raise ValueError(f"Negative values detected: {negatives}")
 
-# Function to check for negative numbers and raise an exception if found
-def find_negatives(numbers):
-    negative_numbers = list(filter(lambda n: n < 0, numbers))
-    if negative_numbers:
-        raise ValueError(f"Negative numbers are not allowed")
+# Check if a number is valid (<= 1000)
+def is_valid(number):
+    return number if number <= 1000 else 0  
+    
+# Calculate the sum of valid numbers
+def compute_total(parts):
+    values = [int(part) for part in parts]  # Convert strings to integers
+    check_for_negatives(values) 
+    return sum(is_valid(n) for n in values)  
 
-# Function to sum valid numbers from tokens
-def calculate_sum(tokens):
-    numbers = list(map(int, tokens))  # Convert all tokens to integers using map
-    find_negatives(numbers)
-    return sum(validate_number(num) for num in numbers) 
+# Extract custom delimiter if present
+def get_custom_separator(input_str):
+    if input_str.startswith("//"):
+        delimiter = input_str[2]
+        return delimiter, input_str.split('\n', 1)[1]
+    return ',', input_str  # Default delimiter: comma
 
-# Function to extract and apply a custom separator
-def detect_custom_separator(input_data):
-    if input_data.startswith("//"):
-        separator = input_data[2]
-        return separator, input_data.split('\n', 1)[1]
-    return ',', input_data  # Default separator: comma
-
-# Main function to process the input and return the sum
-def add(input_data):
-    if not input_data:
+# Main function to handle input and calculate the sum
+def add(input_str):
+    if not input_str:
         return 0
 
-    # Get the separator and numbers
-    separator, number_section = detect_custom_separator(input_data)
-
-    # Split and sum the numbers
-    tokens = number_section.replace('\n', separator).split(separator)
-    return calculate_sum(tokens)
+    delimiter, data = get_custom_separator(input_str)
+    parts = data.replace('\n', delimiter).split(delimiter)
+    return compute_total(parts)
