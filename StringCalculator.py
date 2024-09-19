@@ -4,7 +4,7 @@ import sys
 def check_for_negatives(values):
     negatives = [n for n in values if n < 0]
     if negatives:
-        raise ValueError(f"Negative values detected: {negatives}")
+        raise ValueError(f"Negative numbers are not allowed")
 
 # Check if a number is valid (<= 1000)
 def is_valid(number):
