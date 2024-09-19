@@ -1,33 +1,30 @@
 import sys
+from functools import reduce
 
-# Raise an exception if negative numbers are found
-def check_for_negatives(values):
-    negatives = [n for n in values if n < 0]
-    if negatives:
+# Use a function to replace conditionals for validating numbers
+def valid_if_less_than_1000(num):
+    return num * (num <= 1000) 
+
+# Function to raise an exception if negative numbers are found
+def raise_if_negatives_present(values):
+    negatives = list(filter(lambda x: x < 0, values))  # Use filter to find negative numbers
+    if negatives: 
         raise ValueError(f"Negative numbers are not allowed")
 
-# Check if a number is valid (<= 1000)
-def is_valid(number):
-    return number if number <= 1000 else 0  
-    
-# Calculate the sum of valid numbers
-def compute_total(parts):
-    values = [int(part) for part in parts]  # Convert strings to integers
-    check_for_negatives(values) 
-    return sum(is_valid(n) for n in values)  
+# Function to sum numbers using reduce, replacing explicit loops
+def sum_valid_numbers(parts):
+    values = list(map(int, parts)) 
+    raise_if_negatives_present(values)  
+    return reduce(lambda total, num: total + valid_if_less_than_1000(num), values, 0)
 
-# Extract custom delimiter if present
-def get_custom_separator(input_str):
-    if input_str.startswith("//"):
-        delimiter = input_str[2]
-        return delimiter, input_str.split('\n', 1)[1]
-    return ',', input_str  # Default delimiter: comma
+# Function to get custom separator using slicing, avoiding conditionals
+def parse_custom_separator(input_str):
+    return (input_str[2], input_str.split('\n', 1)[1]) if input_str.startswith("//") else (',', input_str)
 
 # Main function to handle input and calculate the sum
 def add(input_str):
     if not input_str:
-        return 0
-
-    delimiter, data = get_custom_separator(input_str)
-    parts = data.replace('\n', delimiter).split(delimiter)
-    return compute_total(parts)
+        return 0  
+    separator, data = parse_custom_separator(input_str)  
+    parts = data.replace('\n', separator).split(separator)
+    return sum_valid_numbers(parts) 
