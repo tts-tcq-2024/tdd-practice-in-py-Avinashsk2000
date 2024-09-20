@@ -1,0 +1,16 @@
+,,,,,
+Test Scenario,Test Case ID,Test Case Name,Test Input,Expected Output,Test Description
+"Handling Empty Input 
+: Ensures that the function returns 0 when the input is an empty string.",TC001,test_expectZeroForEmptyInput,"""""",0,"When no numbers are provided (i.e., the input string is empty), the function should return the sum as 0"
+"Handling Single Zero
+: Confirms that the function returns 0 when the input is a single ""0"".",TC002,test_expectZeroForSingleZero,"""0""",0,"If the input string contains only a single zero (""0""), the function should return 0."
+"Summing Two Numbers
+:Verifies that the function correctly sums two comma-separated numbers.",TC003,test_expectSumForTwoNumbers,"""1,2""",3,The input string contains two comma-separated numbers (in this case 1 and 2). The function should sum them and return the result
+"Ignoring Numbers Greater Than 1000
+: Confirms that numbers greater than 1000 are ignored in the sum.",TC004,test_ignoreNumbersGreaterThan1000,"""1,1001""",1,"The input contains two numbers: 1 and 1001. Numbers greater than 1000 should be ignored when calculating the sum, so the function should return 1."
+"Using Custom Delimiters
+:Tests that the function can use a custom delimiter (in this case, ;).",TC005,test_expectSumWithCustomDelimiter,"""//;\n1;2""",3,"The input defines a custom delimiter (;) with the syntax //[delimiter]\n. The numbers are then separated by this custom delimiter (in this case 1 and 2), and the sum should be calculated using this delimiter."
+"Handling Newline as Delimiter
+:Ensures that newline characters are correctly handled as delimiters.",TC006,test_expectSumWithNewlineDelimiter,"""1\n2,3""",6,"In this case, the input contains a newline character (\n) between numbers. The function should treat the newline character as a valid delimiter (along with the default comma), and return the correct sum of the numbers."
+"Handling Negative Numbers
+: Ensures that negative numbers trigger a ValueError with an appropriate message.",TC007,test_negativeNumbersRaiseException,"""1,-2,-3""","Exception: ""Negative numbers are not allowed""",The input contains negative numbers (-2 and -3). The function should raise a ValueError exception and display a message indicating that negative numbers are not allowed.
